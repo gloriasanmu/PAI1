@@ -1,0 +1,110 @@
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Aux. queries
+### Get all departments
+# @name departments
+GET {{BASE}}/departments
+
+### Get all employees
+# @name employees
+GET {{BASE}}/employees
+
+### Test 01: Register a new employee successfully, without a boss and department ID
+### Positive test
+### Associated requirements: RF-05
+POST {{BASE}}/register
+Content-Type: application/json
+
+{
+    "email": "test_employee@company.com",
+    "password": "123456",
+    "firstName": "Testing",
+    "lastName": "Employee",
+    "salary": 2000
+}
+
+### Test 02: Register a new employee successfully, with a department ID but without a boss
+### Positive test
+### Associated requirements: RF-05
+@deptId = {{departments.response.body.0.departmentId}}
+POST {{BASE}}/register
+Content-Type: application/json
+
+{
+    "email": "test_employee_2@company.com",
+    "password": "123456",
+    "firstName": "Testing",
+    "lastName": "Employee 2",
+    "salary": 2000,
+    "departmentId": {{deptId}}
+}
+
+### Test 03: Register a new employee with an email already in use
+### Negative test
+### Associated requirements: RF-05, RES-5
+@email = {{employees.response.body.0.email}}
+POST {{BASE}}/register
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "123456",
+    "firstName": "Testing",
+    "lastName": "Employee 3",
+    "salary": 2000
+}
+
+### Test 04: Register a new employee with a non-existing boss ID
+### Negative test
+### Associated requirements: RF-05, RES-3
+POST {{BASE}}/register
+Content-Type: application/json
+
+{
+    "email": "test_employee_3",
+    "password": "123456",
+    "firstName": "Testing",
+    "lastName": "Employee 3",
+    "salary": 2000,
+    "bossId": 99999999
+}
+
+### Test 05: Modify an employee's data successfully
+### Positive test
+### Associated requirements: RF-06
+@empDpt = {{employees.response.body.0.departmentId}}
+@empBoss = {{employees.response.body.0.bossId}}
+@empId = {{employees.response.body.0.employeeId}}
+PUT {{BASE}}/employees/{{empId}}
+Content-Type: application/json
+
+{
+    "email": "changed_email@company.com",
+    "password": "newPassword",
+    "firstName": "newName",
+    "lastName": "newLastName",
+    "salary": 9000,
+    "departmentId": {{empDpt}},
+    "bossId": {{empBoss}}
+}
+
+### Test 06: Modify an employee's data trying to introduce a negative value for their salary
+### Negative test
+### Associated requirements: RF-06, RES-4
+@empDpt = {{employees.response.body.0.departmentId}}
+@empBoss = {{employees.response.body.0.bossId}}
+@empId = {{employees.response.body.0.employeeId}}
+PUT {{BASE}}/employees/{{empId}}
+Content-Type: application/json
+
+{
+    "email": "changed_email@company.com",
+    "password": "newPassword",
+    "firstName": "newName",
+    "lastName": "newLastName",
+    "salary": -2000,
+    "departmentId": {{empDpt}},
+    "bossId": {{empBoss}}
+}
+
+### Add as many additional tests as required...

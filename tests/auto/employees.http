@@ -1,0 +1,138 @@
+
+### THIS IS AN AUTO-GENERATED TEST SUITE, IT NEEDS TO BE COMPLETED WITH VALID DATA
+### THESE ARE NOT ALL YOU NEED, MORE OF THEM MUST BE CREATED TO EVALUATE THE FUNCTIONAL
+### REQUIREMENTS OF THE PROJECT AT HAND, THESE TEST ONLY TEST THE CRUD PORTION OF THE ENTITY.
+### Silence is a DEAL research team project, more info about us in https://deal.us.es
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Auxiliary query
+### Positive test
+### Test 00: Get all existing employees
+### This query is used in several of the below tests it should be executed first.
+# @name employees
+GET {{BASE}}/employees
+
+### Register a new employees and save the generated token 
+### This token is used in several of the below tests it should be executed second.
+# @name register
+POST {{BASE}}/register 
+Content-Type: application/json 
+
+{ 
+	"email": ###REPLACE###,
+	"password": ###REPLACE###,
+	"departmentId": ###REPLACE###,
+	"bossId": ###REPLACE###,
+	"firstName": ###REPLACE###,
+	"lastName": ###REPLACE###,
+	"salary": ###REPLACE###
+}
+
+###
+@token = {{register.response.body.sessionToken}}
+
+### Test 01: Get one existing employees by its id.
+### positive test 
+@empId = {employees.response.body.0.employeeId}
+GET {{BASE}}/employees/{{empId}} 
+Content-Type: application/json 
+
+
+### Test 02: Try get one existing employees by its nonexistent id.
+### negative test 
+GET {{BASE}}/employees/999999999
+Content-Type: application/json 
+
+
+### Test 03: Add a new employees successfully
+### Positive test 
+### We assume that the token has been aquired by the register request.
+POST {{BASE}}/employees 
+Content-Type: application/json 
+Token: {{token}} 
+
+{
+	"email": ###REPLACE###,
+	"password": ###REPLACE###,
+	"departmentId": ###REPLACE###,
+	"bossId": ###REPLACE###,
+	"firstName": ###REPLACE###,
+	"lastName": ###REPLACE###,
+	"salary": ###REPLACE###
+} 
+
+### Test 04: Add a new employees without a session token
+### Negative test 
+POST {{BASE}}/employees 
+Content-Type: application/json 
+
+{ 
+	"email": ###REPLACE###,
+	"password": ###REPLACE###,
+	"departmentId": ###REPLACE###,
+	"bossId": ###REPLACE###,
+	"firstName": ###REPLACE###,
+	"lastName": ###REPLACE###,
+	"salary": ###REPLACE###
+}
+
+### Test 05: Modify an existing employees 
+### Positive test 
+@empId = {{employees.response.body.0.employeeId}} 
+PUT {{BASE}}/employees/{{empId}} 
+Content-Type: application/json 
+Token: {{token}} 
+
+{ 
+	"email": ###REPLACE###,
+	"password": ###REPLACE###,
+	"departmentId": ###REPLACE###,
+	"bossId": ###REPLACE###,
+	"firstName": ###REPLACE###,
+	"lastName": ###REPLACE###,
+	"salary": ###REPLACE###
+}
+
+### Test 06: Try to modify an existing employees without a session token
+### Negative test
+@empId = {{employees.response.body.0.employeeId}}
+PUT {{BASE}}/employees/{{empId}}
+Content-Type: application/json
+
+{
+	"email": ###REPLACE###,
+	"password": ###REPLACE###,
+	"departmentId": ###REPLACE###,
+	"bossId": ###REPLACE###,
+	"firstName": ###REPLACE###,
+	"lastName": ###REPLACE###,
+	"salary": ###REPLACE###
+}
+
+### Test 07: Delete an existing employees
+### Positive test
+
+### Create a new employees, which we will delete
+# @name createdempToDelete
+POST {{BASE}}/employees
+Content-Type: application/json
+Token: {{token}}
+
+{
+	"email": ###REPLACE###,
+	"password": ###REPLACE###,
+	"departmentId": ###REPLACE###,
+	"bossId": ###REPLACE###,
+	"firstName": ###REPLACE###,
+	"lastName": ###REPLACE###,
+	"salary": ###REPLACE###
+}
+### Delete the employees
+@deptId = {createdempToDelete.response.body.lastId}
+DELETE {{BASE}}/employees/{{empId}}
+Token: {{token}}
+
+### Test 08: Try to delete a department without a session token
+### Negative test
+DELETE {{BASE}}/employees/{{empId}}
+

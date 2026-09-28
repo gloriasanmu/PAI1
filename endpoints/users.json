@@ -1,0 +1,12 @@
+{
+    "getCurrent": {
+        "route": "/users/current",
+        "method": "GET",
+        "sql": "SELECT userId, username, money FROM Users WHERE userId = $loggedId",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ],
+        "description": "Gets the currently logged user"
+    }
+}

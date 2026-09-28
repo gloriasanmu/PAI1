@@ -1,0 +1,73 @@
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Aux. queries
+### Get all departments
+# @name departments
+GET {{BASE}}/departments
+
+### Register a new employee and save the generated session token
+# @name register
+POST {{BASE}}/register
+Content-Type: application/json
+
+{
+    "email": "new_employee@company.com",
+    "password": "123456",
+    "firstName": "New",
+    "lastName": "Employee",
+    "salary": 2000
+}
+
+###
+@token = {{register.response.body.sessionToken}}
+
+### Test 01: Add a new department with the same name and city as another department
+### Negative test
+### Associated requirements: RF-01, RN-01
+@depName = {{departments.response.body.0.name}}
+@depCity = {{departments.response.body.0.city}}
+POST {{BASE}}/departments
+Content-Type: application/json
+Token: {{token}}
+
+{
+    "name": "{{depName}}",
+    "city": "{{depCity}}"
+}
+
+### Test 02: Try to delete a department that contains employees
+### Negative test
+### Associated requirements: RF-03, RN-02
+
+### Create a new department and save its ID
+# @name createdDptTest08
+POST {{BASE}}/departments
+Content-Type: application/json
+Token: {{token}}
+
+{
+    "name": "Dept. to delete 2",
+    "city": "Test City"
+}
+
+###
+@deptIdDelete = {{createdDptTest08.response.body.lastId}}
+
+### Create a new employee in that department
+POST {{BASE}}/register
+Content-Type: application/json
+
+{
+    "email": "test_employee_in_dpmt@company.com",
+    "password": "123456",
+    "firstName": "New",
+    "lastName": "Employee",
+    "salary": 2000,
+    "departmentId": {{deptIdDelete}}
+}
+
+### Try to delete the department
+DELETE {{BASE}}/departments/{{deptIdDelete}}
+Token: {{token}}
+
+### Add as many additional tests as required...

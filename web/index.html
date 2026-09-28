@@ -1,0 +1,49 @@
+<!doctype HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="images/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/libs/axios.min.js"></script>
+    <script src="js/utils/include.js"></script>
+
+    <title>Sample project</title>
+</head>
+
+<body>
+    <div id="page-header"></div>
+
+    <div class="container">
+        <div class="row" id="errors"></div>
+
+        <div class="container mt-4">
+            <h2 class="mb-4">Lista de Usuarios</h2>
+
+            <!-- Contenedor donde se insertarán las tarjetas de los usuarios -->
+            <div id="users-container" class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+                <!-- Las tarjetas se cargarán aquí automáticamente mediante JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <div id="page-footer"></div>
+
+    <script>
+        include("header.html", "#page-header");
+        include("footer.html", "#page-footer");
+    </script>
+
+    <script type="module" src="js/header.js"></script>
+    <script type="module" src="js/index.js"></script>
+
+</body>
+
+</html>

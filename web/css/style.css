@@ -1,0 +1,161 @@
+/* ==========================================================================
+   Estilo Aurora & Ethereal Mode (Light Version - Texto Sólido)
+   ========================================================================== */
+:root {
+    /* Superficies de Cristal Etéreo */
+    --ethereal-glass: rgba(255, 255, 255, 0.65);
+    --ethereal-glass-hover: rgba(255, 255, 255, 0.85);
+    --ethereal-header: rgba(255, 255, 255, 0.55);
+    
+    /* Bordes Luminosos */
+    --border-ethereal: 1px solid rgba(255, 255, 255, 0.85);
+    --border-hover: 1px solid rgba(192, 132, 252, 0.5);
+    
+    /* Tipografía y Textos */
+    --text-primary: #1e1b4b;       /* Índigo profundo sólido */
+    --text-secondary: #64748b;     /* Gris violeta atenuado */
+    
+    /* Badge de Dinero / Saldo */
+    --money-bg: rgba(16, 185, 129, 0.12);
+    --money-text: #047857;
+    --money-border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Base con malla de luces de Auroras Boreales en tonos pastel claros */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-primary);
+    background-color: #f8fafc;
+    background-image: 
+        radial-gradient(at 10% 15%, rgba(192, 132, 252, 0.22) 0px, transparent 45%),
+        radial-gradient(at 85% 15%, rgba(56, 189, 248, 0.22) 0px, transparent 45%),
+        radial-gradient(at 50% 75%, rgba(244, 114, 182, 0.18) 0px, transparent 50%),
+        radial-gradient(at 80% 85%, rgba(45, 212, 191, 0.18) 0px, transparent 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   Elementos Interactivos
+   ========================================================================== */
+.clickable {
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clickable:hover {
+    transform: translateY(-3px);
+}
+
+/* ==========================================================================
+   Encabezado / Bloque de Título
+   ========================================================================== */
+div.title-block {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: var(--ethereal-header);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: var(--border-ethereal);
+    box-shadow: 0 10px 30px -10px rgba(147, 51, 234, 0.05);
+    margin-bottom: 2.5rem;
+}
+
+#title {
+    font-size: 2.3rem;
+    font-weight: 800;
+    text-decoration: none;
+    color: var(--text-primary); /* Color índigo sólido sin degradados */
+    letter-spacing: -0.02em;
+    display: inline-block;
+    margin-bottom: 0.25rem;
+}
+
+#subtitle {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* ==========================================================================
+   Grupos y Badges
+   ========================================================================== */
+.dept-group {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: inline-flex;
+    align-items: center;
+}
+
+.dept-group .badge {
+    margin-left: 8px;
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    border: var(--border-ethereal);
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* ==========================================================================
+   Tarjetas de Usuarios (Cuadraditos estilo Aurora/Ethereal)
+   ========================================================================== */
+.card {
+    background: var(--ethereal-glass) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: var(--border-ethereal) !important;
+    border-radius: 20px !important;
+    box-shadow: 
+        0 15px 35px -10px rgba(99, 102, 241, 0.08),
+        0 0 15px rgba(255, 255, 255, 0.6) inset;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+    background: var(--ethereal-glass-hover) !important;
+    border: var(--border-hover) !important;
+    transform: translateY(-6px);
+    box-shadow: 
+        0 20px 40px -10px rgba(124, 58, 237, 0.18),
+        0 0 25px rgba(56, 189, 248, 0.15);
+}
+
+.card-title {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* Badge para el saldo/dinero */
+.badge-money {
+    background: var(--money-bg);
+    color: var(--money-text);
+    border: var(--money-border);
+    backdrop-filter: blur(8px);
+    padding: 0.45rem 0.9rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);
+}
+
+/* ==========================================================================
+   Pie de página (Footer)
+   ========================================================================== */
+footer {
+    background: var(--ethereal-header);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: var(--border-ethereal);
+    padding: 1.5rem 0;
+    margin-top: 4rem;
+}
+
+span.footer-text {
+    margin-left: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
