@@ -51,5 +51,13 @@ function sendSignUp(formData) {
             sessionManager.login(sessionToken, loggedUser);
             window.location.href = "index.html";
         })
-        .catch(error => messageRenderer.showErrorMessage(error));
+        .catch(error => {
+            const serverMessage = error.response?.data?.message || "";
+            if (/already exists|duplicate entry/i.test(serverMessage)) {
+                messageRenderer.showErrorMessage("Ese nombre de usuario ya está registrado.");
+                return;
+            }
+
+            messageRenderer.showErrorMessage("No se pudo completar el registro. Comprueba los datos e inténtalo de nuevo.");
+        });
 }
