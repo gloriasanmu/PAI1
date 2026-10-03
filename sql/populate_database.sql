@@ -1,5 +1,5 @@
-INSERT INTO Users (userId, username, password, money)
+INSERT INTO Users (userId, username, password, account, money)
     VALUES
-	(1, 'Paco', 'Pacoso27..', 12000.0),
-	(2, 'Ana', '7788ana_', 20000.0),
-	(3, 'Ambrosio', '-80ambrosios', 17000.0);
+	(1, 'Paco', 'pbkdf2:sha256:260000$xvrmEUBVaDICO0G7$74a6f2ed4b7f37e7885b695f56cf4250f7084c14cad4a13397d741c85126ebcc', 'ES1234567890123456789012', 12000.0),
+	(2, 'Ana', 'pbkdf2:sha256:260000$CLOrdXr3LgDmEsRh$8373a90710e68a0c72a8ec2c6612b2c5fd6463920b3a74e19ab257334bee4775', 'ES9876543210987654321098', 20000.0),
+	(3, 'Ambrosio', 'pbkdf2:sha256:260000$VXCZ3Xk05CV7MwOe$7c7791744b39ab7127daa6f641b6091bbb0bfc3e61ebe705241f1ecd6a17b610', 'ES5555666677778888999900', 17000.0);

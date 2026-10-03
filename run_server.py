@@ -59,6 +59,20 @@ def login_protegido_por_ip():
 
 # ===== (aquí iréis pegando los arreglos de los siguientes pasos) =====
 
+# ===== Clave de sesión para firmar las transferencias =====
+ITERACIONES_CLAVE = 100_000
+claves_sesion = {}   # token -> clave HMAC de 256 bits
+
+def login_con_clave():
+    respuesta, codigo = login_protegido_por_ip()
+    datos = respuesta.get_json()
+    password = (request.json if request.is_json else request.form).get("password", "")
+    salt = secrets.token_bytes(16)
+    claves_sesion[datos["sessionToken"]] = hashlib.pbkdf2_hmac(
+        "sha256", password.encode(), salt, ITERACIONES_CLAVE)
+    datos["hmacSalt"] = salt.hex()   # el salt viaja; la clave no
+    return jsonify(datos), codigo
+
 manager.setup()
-manager.APP.view_functions["login"] = login_protegido_por_ip
+manager.APP.view_functions["login"] = login_con_clave
 manager.run()

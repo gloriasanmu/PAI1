@@ -1,8 +1,28 @@
+DROP TABLE IF EXISTS Transfers;
+DROP TABLE IF EXISTS Nonces;
 DROP TABLE IF EXISTS Users;
 
 CREATE TABLE Users (
     userId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(128) NOT NULL UNIQUE,
     password VARCHAR(512) NOT NULL,
+    account CHAR(24) UNIQUE,
     money DECIMAL(12,2) NOT NULL DEFAULT 0.00
+);
+
+CREATE TABLE Transfers (
+    txId CHAR(36) NOT NULL PRIMARY KEY,
+    userId INT NOT NULL,
+    originAccount CHAR(24) NOT NULL,
+    destinationAccount CHAR(24) NOT NULL,
+    amount DECIMAL(12,2) NOT NULL,
+    currency CHAR(3) NOT NULL,
+    txTimestamp BIGINT NOT NULL,
+    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES Users(userId)
+);
+
+CREATE TABLE Nonces (
+    nonce CHAR(32) NOT NULL PRIMARY KEY,
+    ts BIGINT NOT NULL
 );
