@@ -42,5 +42,13 @@ function sendLogin(formData) {
             sessionManager.login(sessionToken, loggedUser);
             window.location.href = "index.html";
         })
-        .catch(error => messageRenderer.showErrorMessage(error));
+        .catch(error => {
+            const blockedMessage = error.response?.status === 429
+                ? error.response.data?.message
+                : null;
+
+            messageRenderer.showErrorMessage(
+                blockedMessage || "No se pudo iniciar sesión. Comprueba tus datos e inténtalo de nuevo."
+            );
+        });
 }
