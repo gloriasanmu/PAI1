@@ -5,13 +5,13 @@ import { sessionManager } from './utils/session.js';
 import { messageRenderer } from './renderers/messages.js';
 
 // DOM elements that we will use
-const loginForm = document.getElementById("transaccion-form");
+const transaccionForm = document.getElementById("transaccion-form");
 const errorsDiv = document.getElementById("errors");
 
 // Main function that will run when the page is ready
 function main() {
     // Handle the form's submit event
-    loginForm.addEventListener("submit", function (event) {
+    transaccionForm.addEventListener("submit", function (event) {
         handleSubmitTransaccion(event);
     });
 }
@@ -28,22 +28,14 @@ function handleSubmitTransaccion(event) {
     event.preventDefault();
     errorsDiv.innerHTML = "";
 
-    let formData = new FormData(loginForm);
+    let formData = new FormData(transaccionForm);
 
     sendTransaccion(formData);
 }
 
 function sendTransaccion(formData) {
     authAPI.transaccion(formData)
-        .then(transaccionData => {
-            // Successful transaccion
-            /*let sessionToken = transaccionData.sessionToken;
-            let loggedUser = transaccionData.user;
-            sessionManager.login(sessionToken, loggedUser);*/
-            
-
-
-
+        .then(() => {
             window.alert("Transacción realizada con éxito");
             window.location.href = "index.html";
         })

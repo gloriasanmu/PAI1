@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ### Transfiere 100 unidades de Paco a Ana
 @senderToken = {{senderLogin.response.body.sessionToken}}
-POST {{BASE}}/transaccion
+POST {{BASE}}/transaccion/current
 Content-Type: application/json
 Token: {{senderToken}}
 

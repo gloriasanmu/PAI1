@@ -2,68 +2,47 @@
 
 import { sessionManager } from './utils/session.js';
 import { messageRenderer } from './renderers/messages.js';
-
-import { employeesAPI } from '/js/api/employees.js';
-import { employeeRenderer } from '/js/renderers/employees.js';
-
-import { departmentsAPI_auto } from '/js/api/_departments.js';
-import { employeesAPI_auto } from '/js/api/_employees.js';
-
-
+import { usersAPI } from './api/users.js';
 
 // DOM elements that we will use
-const employeeCont = document.getElementById("employee");
+const profileCont = document.getElementById("employee");
 
 
 // Main function that will run when the page is ready
 async function main() {
-    // Hide the options that shouldnt be available for not logged users
-    setLoggedOptions();
-
-    // Load the logged employee
-    let employee;
-    try{
-        employee = await employeesAPI.getLogged();
-    }catch (e){
-        messageRenderer.showErrorAsAlert("Error retrieving logged employee", e)
+    if (!sessionManager.isLogged()) {
+        messageRenderer.showErrorMessage("Inicia sesión para ver tu perfil.");
+        return;
     }
 
-    let boss = null;
-    let dept = null;
-
-    // If the employee has a boss we retrieve it.
-    if (employee.bossId != null){
-        try{
-            boss = employeesAPI_auto.getById(employee.bossId);
-        }catch(e){
-            messageRenderer.showErrorAsAlert("Error retrieving employee's boss", e)
+    try {
+        const user = await usersAPI.getCurrent();
+        if (!user) {
+            throw new Error("No se encontraron los datos del usuario.");
         }
-    }
 
-    // If the employee has a department we retrieve it.
-    if (employee.departmentId != null){
-        try{
-            dept = departmentsAPI_auto.getById(employee.departmentId);
-        }catch(e){
-            messageRenderer.showErrorAsAlert("Error retrieving employee's department", e)
-        }
+        renderProfile(user);
+    } catch (error) {
+        messageRenderer.showErrorMessage(error.message || "Error al cargar el perfil.");
     }
-    
-    // We wait for both the boss and the department to be retrieved, then render them as a profile.
-    let both_resolved = [await boss, await dept];
-    let logged = employeeRenderer.asProfile(employee, both_resolved[0], both_resolved[1]);
-    employeeCont.innerHTML = logged;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     main();
 });
 
-///////////
+function renderProfile(user) {
+    const profile = document.createElement("ul");
+    profile.className = "list-group list-group-flush";
 
-function setLoggedOptions() {
-    // Hide the things that shouldnt be available for non authenticated users
-    if (!sessionManager.isLogged()) {
-        newDpmtButton.style.display = "none";
-    }
+    const name = document.createElement("li");
+    name.className = "list-group-item";
+    name.textContent = `Nombre: ${user.username}`;
+
+    const money = document.createElement("li");
+    money.className = "list-group-item";
+    money.textContent = `Dinero: ${Number(user.money ?? 0).toFixed(2)} €`;
+
+    profile.append(name, money);
+    profileCont.appendChild(profile);
 }

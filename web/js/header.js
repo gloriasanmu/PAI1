@@ -7,8 +7,10 @@ const userLink = document.getElementById("showUsername");
 const logoutButton = document.getElementById("logout-button");
 const profileButton = document.getElementById("profile-button");
 const headerLogin = document.getElementById("header-login");
+const headerRegister = document.getElementById("header-register");
 const headerLogout = document.getElementById("header-logout");
 const headerProfile = document.getElementById("header-profile");
+const headerTransaccion = document.getElementById("header-transaccion");
 
 function main() {
     showUser();
@@ -25,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function showUser() {
     // Greet the user in the navbar
     let loggedUser = sessionManager.getLoggedUser();
-    let username = loggedUser !== null ? loggedUser.firstName : "Guest";
+    let username = loggedUser !== null ? loggedUser.username : "Guest";
     userLink.textContent = "Hi, " + username;
 }
 
@@ -41,8 +43,10 @@ function hideHeaderOptions() {
     // Hide the appropriate options
     if (sessionManager.isLogged()) {
         headerLogin.style.display = "none";
+        headerRegister.style.display = "none";
     } else {
         headerLogout.style.display = "none";
         headerProfile.style.display = "none";
+        headerTransaccion.style.display = "none";
     }
 }

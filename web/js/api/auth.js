@@ -15,7 +15,7 @@ const authAPI = {
     },
 
     transaccion: async function(formData) {
-        let response = await axios.post(`${BASE_URL}/transaccion`, formData, requestOptions);
+        let response = await axios.post(`${BASE_URL}/transaccion/current`, formData, requestOptions);
         return response.data;
     }
 };
