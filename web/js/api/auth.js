@@ -9,7 +9,15 @@ const authAPI = {
         return response.data;
     },
 
+    register: async function(formData) {
+        let response = await axios.post(`${BASE_URL}/register`, formData, requestOptions);
+        return response.data;
+    },
 
+    transaccion: async function(formData) {
+        let response = await axios.post(`${BASE_URL}/transaccion`, formData, requestOptions);
+        return response.data;
+    }
 };
 
 export { authAPI };

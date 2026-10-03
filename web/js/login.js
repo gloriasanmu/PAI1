@@ -30,9 +30,6 @@ function handleSubmitLogin(event) {
 
     let formData = new FormData(loginForm);
 
-    let datosObjeto = Object.fromEntries(formData);
-    console.log(datosObjeto);
-
     sendLogin(formData);
 }
 

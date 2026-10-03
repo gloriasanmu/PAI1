@@ -19,6 +19,7 @@ const sessionManager = {
 
     getToken: function () {
         let token = localStorage.getItem("sessionToken");
+        console.log("Token retrieved from localStorage:", token);
 
         // Logout if the token has expired
         if (token !== null) {

@@ -1,0 +1,16 @@
+{
+    "transfer": {
+        "route": "/transaccion",
+        "method": "POST",
+        "sql": "UPDATE Users AS sender JOIN Users AS recipient ON recipient.username = $username SET sender.money = sender.money - $money, recipient.money = recipient.money + $money WHERE sender.userId = $loggedId AND sender.userId <> recipient.userId AND $money > 0 AND sender.money >= $money",
+        "auth_required": true,
+        "allowed_roles": [
+            "*"
+        ],
+        "description": "Transfiere dinero del usuario autenticado a otro usuario",
+        "request_body_params": [
+            "username",
+            "money"
+        ]
+    }
+}

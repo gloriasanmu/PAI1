@@ -46,7 +46,7 @@ function sendSignUp(formData) {
     authAPI.register(formData)
         .then(registerData => {
             // Registro e inicio de sesión automático tras la respuesta del servidor
-            let sessionToken = registerData.sessionToken;
+            let sessionToken = registerData.sessionToken; // mirar bien
             let loggedUser = registerData.user;
             sessionManager.login(sessionToken, loggedUser);
             window.location.href = "index.html";

@@ -1,0 +1,41 @@
+@BASE = http://127.0.0.1:8080/api/v1
+
+### Inicia sesión como remitente
+# @name senderLogin
+POST {{BASE}}/login
+Content-Type: application/json
+
+{
+    "username": "Paco",
+    "password": "Pacoso27.."
+}
+
+### Transfiere 100 unidades de Paco a Ana
+@senderToken = {{senderLogin.response.body.sessionToken}}
+POST {{BASE}}/transaccion
+Content-Type: application/json
+Token: {{senderToken}}
+
+{
+    "username": "Ana",
+    "money": 100.00
+}
+
+### Comprueba el saldo del remitente
+GET {{BASE}}/users/current
+Token: {{senderToken}}
+
+### Comprueba el saldo del destinatario
+# @name recipientLogin
+POST {{BASE}}/login
+Content-Type: application/json
+
+{
+    "username": "Ana",
+    "password": "7788ana_"
+}
+
+###
+@recipientToken = {{recipientLogin.response.body.sessionToken}}
+GET {{BASE}}/users/current
+Token: {{recipientToken}}
